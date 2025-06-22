@@ -16,8 +16,8 @@ pip install -r requirements.txt
 streamlit run main.py
 
 ### 3. 文件结构说明
-
-项目/
+budget-tracker/
+```
 ├── main.py               # 登录页
 ├── database.py           # 数据库逻辑
 ├── requirements.txt      # 依赖
@@ -26,7 +26,8 @@ streamlit run main.py
 └── pages/
     ├── 记账.py
     └── 统计.py
-    
+
+```    
 ## 💡 功能细节
 数据存储使用 SQLite (data.db)
 
