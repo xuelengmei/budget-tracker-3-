@@ -1,31 +1,37 @@
-# 📔 小小记账本 V2（Streamlit 多页面版）
+# Streamlit 记账本项目 💰📊
 
-一个基于 Streamlit 构建的简单记账应用，支持用户注册登录、多用户记账、分类记录。
+这是一个基于 Streamlit + SQLite 的记账本应用，实现了：
 
----
+- ✅ 用户注册 / 登录（数据持久化保存）
+- ✅ 记账功能（支出、收入记录）
+- ✅ 统计分析（按分类统计图表）
+- ✅ 简洁直观的前端页面
 
-## 🚀 功能亮点
+## 🌱 使用方式
 
-- 🔐 用户注册与登录
-- 📅 支出 / 收入记录添加
-- 📂 分类（饮食 / 工资 / 娱乐 等）
-- 🗑️ 删除单条记录
-- 🧹 一键清空全部记录
-- 📄 多页面结构（主页面 + 记账页面）
+### 1. 安装依赖（建议在虚拟环境中）：
+pip install -r requirements.txt
 
----
-
-## 🌐 在线体验
-
-👉 [点我进入小小记账本 V2](https://budget-tracker-v2-wqbngh2zn5fmtchsh5xfyw.streamlit.app/)
-
----
-
-## 🛠 使用方式
-
-```bash
-# 安装依赖
-pip install streamlit pandas
-
-# 运行
+### 2. 运行项目
 streamlit run main.py
+
+### 3. 文件结构说明
+
+项目/
+├── main.py               # 登录页
+├── database.py           # 数据库逻辑
+├── requirements.txt      # 依赖
+├── README.md             # 项目说明
+├── .gitignore            # 忽略文件配置
+└── pages/
+    ├── 记账.py
+    └── 统计.py
+    
+## 💡 功能细节
+数据存储使用 SQLite (data.db)
+
+会自动创建表，无需手动建库
+
+适合学习、练手项目部署
+
+欢迎 star ⭐️ 或 fork 🍴！
