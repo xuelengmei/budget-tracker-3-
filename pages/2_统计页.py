@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import altair as alt
+from database import get_user_records
 
 st.set_page_config(page_title="📊 统计分析", page_icon="📈")
 
@@ -17,10 +18,24 @@ if not records:
     st.info("暂无记录，快去添加记账信息吧！")
     st.stop()
 
-df = pd.DataFrame(records)
+df = pd.DataFrame(records, columns=["日期", "类型", "分类", "金额", "备注"])
 df["日期"] = pd.to_datetime(df["日期"], errors="coerce")
 df = df.dropna(subset=["日期"])
 df["月份"] = df["日期"].dt.to_period("M").astype(str)
+
+st.subheader("📋 全部记账数据")
+st.dataframe(df)
+
+excel_file = "我的记账.xlsx"
+df.to_excel(excel_file, index=False)
+
+with open(excel_file, "rb") as f:
+    st.download_button(
+        label="📥 导出为 Excel 文件",
+        data=f,
+        file_name=excel_file,
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
 
 selected_month = st.selectbox("📆 选择月份", sorted(df["月份"].unique(), reverse=True))
 df = df[df["月份"] == selected_month]
