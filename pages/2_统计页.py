@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 
-# 页面配置和全局样式
 st.set_page_config(page_title="📊 统计分析", page_icon="📈")
 
 st.markdown("""
@@ -30,12 +29,10 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 登录校验
 if "logged_in_user" not in st.session_state or not st.session_state.logged_in_user:
     st.info("请先注册或登录后再使用此功能~")
     st.stop()
 
-# 数据准备
 records_dict = st.session_state.get("records", {})
 records = records_dict.get(st.session_state.logged_in_user, [])
 
@@ -50,7 +47,6 @@ df["日期"] = pd.to_datetime(df["日期"], errors="coerce")
 df = df.dropna(subset=["日期"])
 df["月份"] = df["日期"].dt.to_period("M").astype(str)
 
-# 原始数据展示 + 下载
 st.subheader("📋 全部记账数据")
 df.index = df.index + 1
 df.index.name = "序号"
@@ -86,11 +82,9 @@ with open(excel_file, "rb") as f:
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
 
-# 月份选择
 selected_month = st.selectbox("📆 选择月份", sorted(df["月份"].unique(), reverse=True))
 df = df[df["月份"] == selected_month]
 
-# 💰 收支比例图
 with st.expander("💰 收支比例图", expanded=False):
     if not df.empty:
         total_by_type = df.groupby("类型")["金额"].sum().reset_index()
@@ -111,7 +105,6 @@ with st.expander("💰 收支比例图", expanded=False):
     else:
         st.warning("暂无数据，无法生成饼图，请先添加记录哦～")
 
-# 📊 分类分布图
 with st.expander("📊 分类分布图", expanded=False):
     selected_type = st.radio("选择查看类型", ["支出", "收入"], horizontal=True)
     filtered_df = df[df["类型"] == selected_type]
@@ -134,7 +127,6 @@ with st.expander("📊 分类分布图", expanded=False):
         )
         st.altair_chart(bar_chart, use_container_width=True)
 
-# 📈 收入支出趋势图
 with st.expander("📈 收入支出趋势图", expanded=False):
     df_recent = df[df["日期"] >= pd.Timestamp.now() - pd.Timedelta(days=30)]
     if df_recent.empty:
@@ -156,7 +148,6 @@ with st.expander("📈 收入支出趋势图", expanded=False):
         )
         st.altair_chart(line_chart, use_container_width=True)
 
-# 页脚
 st.markdown("""
 <hr>
 <div style="text-align: center; font-size: 14px;">
